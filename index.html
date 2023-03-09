@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <script src="http://koda.nu/simple.js">
+        var zombies = [];
+        var i = 0;
+        let thememusic = new Audio("sound/backgroundmusic.mp3");
+        let reloadsound = new Audio("sound/reload.mp3");
+        thememusic.play();
+        fill("green");
+        rectangle(5, 5, totalWidth-10, totalHeight-10, "black"); 
+        var player = {x: 100, y: 100, size:5,xSpeed:5, ySpeed:0};
+           
+        function update ()
+           {
+             with(player)
+             {
+                rectangle(x, y, size, size, "green" )
+                x += xSpeed;
+                y += ySpeed;
+             
+                     if(keyboard.w) {xSpeed = 0; ySpeed = -5;}
+               
+                    if(keyboard.s) {xSpeed = 0; ySpeed = 5;}
+               
+                     if(keyboard.d) {xSpeed = 5; ySpeed = 0;}
+               
+                   if(keyboard.a) {xSpeed = -5; ySpeed = 0;}
+                
+                 if (getPixel(x, y).green != 0)
+                 {alert("Game over");
+               stopUpdate();
+               
+                }
+             }
+         }  
+    </script>
+</body>
+</html>
