@@ -2,38 +2,73 @@
 <html>
 <body>
     <script src="http://koda.nu/simple.js">
+
+
         var zombies = [];
+ 
+      
         var i = 0;
-        let thememusic = new Audio("sound/backgroundmusic.mp3");
-        let reloadsound = new Audio("sound/reload.mp3");
-        thememusic.play();
-        fill("green");
-        rectangle(5, 5, totalWidth-10, totalHeight-10, "black"); 
-        var player = {x: 100, y: 100, size:5,xSpeed:5, ySpeed:0};
-           
-        function update ()
-           {
-             with(player)
-             {
-                rectangle(x, y, size, size, "green" )
-                x += xSpeed;
-                y += ySpeed;
-             
-                     if(keyboard.w) {xSpeed = 0; ySpeed = -5;}
-               
-                    if(keyboard.s) {xSpeed = 0; ySpeed = 5;}
-               
-                     if(keyboard.d) {xSpeed = 5; ySpeed = 0;}
-               
-                   if(keyboard.a) {xSpeed = -5; ySpeed = 0;}
-                
-                 if (getPixel(x, y).green != 0)
-                 {alert("Game over");
-               stopUpdate();
-               
-                }
-             }
-         }  
-    </script>
+ 
+        while (i<10)
+        {
+            zombies.push({x:random(totalWidth), y:random(totalHeight), speed: random(1,5)});
+ 
+            i += 1;
+        }
+ 
+ 
+    var zombie = {x:random(totalWidth), y:random(totalHeight), speed: random(1,5)};
+        
+    var player = {
+        x:100, y:100
+    }
+    
+ 
+    function update()
+    {
+        fill("lightblue");
+
+        playSound("");
+ 
+        picture(player.x, player.y,"ballongspel1.png");
+          if (keyboard.d)
+            player.x +=10;
+          if (keyboard.a)
+            player.x -= 10;
+           if (keyboard.w)
+           player.y -= 10;
+            if (keyboard.s)
+               player.y += 10;
+
+        var i = 0;
+        while (i<10)
+        {
+            var zombie = zombies[i];
+ 
+         picture (zombie.x, zombie.y, "cactus.png")
+         if (zombie.x < player.x)
+         zombie.x += zombie.speed;
+         else
+          zombie.x -= zombie.speed
+         if (zombie.y < player.y)
+          zombie.y += zombie.speed;
+         else
+          zombie.y -= zombie.speed
+            
+          var d = distance(player, zombie)
+ 
+         if (d < 5)
+         {
+            text(500, 200, 100, "GAME OVER", "red");
+            stopUpdate();
+            stopSound("https://spelprogrammering.nu/ljud/musik/angsskolan/marko_matic.mp3")
+
+         }
+         i += 1;
+        }
+ 
+ 
+    }
+ </script>
 </body>
 </html>
