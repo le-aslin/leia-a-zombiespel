@@ -2,34 +2,26 @@
 <html>
 <body>
     <script src="http://koda.nu/simple.js">
-
-
-        var zombies = [];
- 
-      
+        var zombies = []; 
         var i = 0;
- 
-        while (i<8)
+        
+        while (i < 8)
         {
-            zombies.push({x:random(totalWidth), y:random(totalHeight), speed: random(1,4)});
- 
+            zombies.push({x:random(totalWidth), y:random(totalHeight), speed: random(1,5)});
             i += 1;
         }
- 
- 
-    var zombie = {x:random(totalWidth), y:random(totalHeight), speed: random(1,4)};
         
-    var player = {
+        var zombie = {x:random(totalWidth), y:random(totalHeight), speed: random(1,5)};
+        var player = {
         x:100, y:100
     }
-    playSound("https://spelprogrammering.nu/ljud/musik/angsskolan/marko_matic.mp3", 0.5);
- 
+    
     function update()
     {
         fill("lightblue");
+        picture(totalWidth, totalHeight, "strand.jpeg");
 
-        playSound("");
-        picture(100, 100, "background.avif");
+        //playSound("");
  
         picture(player.x, player.y,"ballongspel1.png");
           if (keyboard.d)
@@ -42,11 +34,12 @@
                player.y += 10;
 
         var i = 0;
-        while (i<8)
+        while (i < 10)
         {
             var zombie = zombies[i];
  
          picture (zombie.x, zombie.y, "cactus.png")
+         
          if (zombie.x < player.x)
          zombie.x += zombie.speed;
          else
@@ -56,13 +49,13 @@
          else
           zombie.y -= zombie.speed
             
-          var d = distance(player, zombie)
+          var d = distance(player, zombie);
  
-         if (d < 10)
+         if (d < 5)
          {
             text(500, 200, 100, "GAME OVER", "red");
             stopUpdate();
-            stopSound("")
+            stopSound("https://spelprogrammering.nu/ljud/musik/angsskolan/marko_matic.mp3");
 
          }
          i += 1;
