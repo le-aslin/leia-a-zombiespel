@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <link rel="stylesheet" href="./style.css">
+    </head>
 <body>
     <script src="http://koda.nu/simple.js">
 
@@ -22,15 +25,16 @@
     var player = {
         x:100, y:100
     }
-    playSound("https://spelprogrammering.nu/ljud/musik/angsskolan/marko_matic.mp3", 0.5);
- 
+    
+    let beat = new Audio('backgroundaudio.mp3');
+    let sound = new Audio('ballonpop.mp3');
+    let audio = new Audio('lose.mp3');
+
     function update()
     {
-        fill("lightblue");
+        clearScreen();
+        beat.play();
 
-        playSound("");
-        picture(100, 100, "background.avif");
- 
         picture(player.x, player.y,"ballongspel1.png");
           if (keyboard.d)
             player.x +=10;
@@ -57,12 +61,22 @@
           zombie.y -= zombie.speed
             
           var d = distance(player, zombie)
- 
+            
+          //denna if sats gör så att spelet avslutas när distance är mindre än 10. 
+          //ljud spelas och stängs av.
+          // samt försvinner mina variabler till en blank screen.
          if (d < 10)
          {
-            text(500, 200, 100, "GAME OVER", "red");
+            zombies.splice(0, zombies.length);
+            i = 8;
+            clearScreen();
+            text(30, 500, 200, "GAME OVER!", "red");
             stopUpdate();
-            stopSound("")
+            beat.pause();
+            sound.loop = false;
+            sound.play();
+            audio.loop = false; 
+            audio.play();
 
          }
          i += 1;
