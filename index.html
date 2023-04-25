@@ -4,9 +4,34 @@
         <link rel="stylesheet" href="./style.css">
     </head>
 <body>
-    <script src="http://koda.nu/simple.js">
+    <div id="menu">
+        <h1>Ballongspelet</h1>
+        <button id="play-button">Spela</button>
+      </div>
+      <canvas id="canvas"></canvas>
 
+    <script src="http://koda.nu/simple.js"></script>
 
+        <script>
+
+    var playButton = document.getElementById("play-button");
+      var menu = document.getElementById("menu");
+      var canvas = document.getElementById("canvas");
+      var ctx = canvas.getContext("2d");
+
+      // visar canvas och gömmer menu
+      canvas.style.display = "none";
+      menu.style.display = "block";
+
+      // ska gör klicket på spela knappen 
+      playButton.addEventListener("click", function() {
+        // visar canvas och gömmer menu
+        canvas.style.display = "block";
+        menu.style.display = "none";
+
+        // Startar game loop
+        startUpdate();
+      });   
         var zombies = [];
  
       
