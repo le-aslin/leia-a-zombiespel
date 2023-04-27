@@ -2,37 +2,17 @@
 <html>
     <head>
         <link rel="stylesheet" href="./style.css">
+
     </head>
 <body>
-    <div id="menu">
-        <h1>Ballongspelet</h1>
-        <button id="play-button">Spela</button>
-      </div>
-      <canvas id="canvas"></canvas>
-
+    <div class="health-bar">
+        <div class="health">
+        </div>
+      </div> 
     <script src="http://koda.nu/simple.js">
-
-    var playButton = document.getElementById("play-button");
-      var menu = document.getElementById("menu");
-      var canvas = document.getElementById("canvas");
-      var ctx = canvas.getContext("2d");
-
-      // visar canvas och gömmer menu
-      canvas.style.display = "none";
-      menu.style.display = "block";
-
-      // ska gör klicket på spela knappen 
-      playButton.addEventListener("click", function() {
-        // visar canvas och gömmer menu
-        canvas.style.display = "block";
-        menu.style.display = "none";
-
-        // Startar game loop
-        startUpdate();
-      });   
+      
         var zombies = [];
  
-      
         var i = 0;
  
         while (i<8)
@@ -42,23 +22,22 @@
             i += 1;
         }
  
- 
     var zombie = {x:random(totalWidth), y:random(totalHeight), speed: random(1,4)};
         
     var player = {
         x:100, y:100
     }
     
-    let beat = new Audio('backgroundaudio.mp3');
-    let sound = new Audio('ballonpop.mp3');
-    let audio = new Audio('lose.mp3');
+    let beat = new Audio('sound/backgroundaudio.mp3');
+    let sound = new Audio('sound/ballonpop.mp3');
+    let audio = new Audio('sound/lose.mp3');
 
     function update()
     {
         clearScreen();
         beat.play();
 
-        picture(player.x, player.y,"ballongspel1.png");
+        picture(player.x, player.y,"img/ballongspel1_30.png");
           if (keyboard.d)
             player.x +=10;
           if (keyboard.a)
@@ -73,7 +52,7 @@
         {
             var zombie = zombies[i];
  
-         picture (zombie.x, zombie.y, "cactus.png")
+         picture (zombie.x, zombie.y, "img/cactus.png")
          if (zombie.x < player.x)
          zombie.x += zombie.speed;
          else
@@ -100,6 +79,7 @@
             sound.play();
             audio.loop = false; 
             audio.play();
+            document.querySelector('.health-bar').classList.add('game-over');
 
          }
          i += 1;

@@ -1,86 +1,87 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <link rel="stylesheet" href="./style.css">
+    </head>
 <body>
-  <script src="http://koda.nu/simple.js">
 
-
-    var zombies = [];
-
-  
-    var i = 0;
-
-    while (i<8)
-    {
-        zombies.push({x:random(totalWidth), y:random(totalHeight), speed: random(1,4)});
-
-        i += 1;
+    <script src="http://koda.nu/simple.js">
+      
+        var zombies = [];
+ 
+        var i = 0;
+ 
+        while (i<8)
+        {
+            zombies.push({x:random(totalWidth), y:random(totalHeight), speed: random(1,4)});
+ 
+            i += 1;
+        }
+ 
+    var zombie = {x:random(totalWidth), y:random(totalHeight), speed: random(1,4)};
+        
+    var player = {
+        x:100, y:100
     }
-
-
-var zombie = {x:random(totalWidth), y:random(totalHeight), speed: random(1,4)};
     
-var player = {
-    x:100, y:100
-}
+    let beat = new Audio('backgroundaudio.mp3');
+    let sound = new Audio('ballonpop.mp3');
+    let audio = new Audio('lose.mp3');
 
-let beat = new Audio('backgroundaudio.mp3');
-let sound = new Audio('ballonpop.mp3');
-let audio = new Audio('lose.mp3');
-
-function update()
-{
-    clearScreen();
-    beat.play();
-
-    picture(player.x, player.y,"ballongspel1.png");
-      if (keyboard.d)
-        player.x +=10;
-      if (keyboard.a)
-        player.x -= 10;
-       if (keyboard.w)
-       player.y -= 10;
-        if (keyboard.s)
-           player.y += 10;
-
-    var i = 0;
-    while (i<8)
+    function update()
     {
-        var zombie = zombies[i];
-
-     picture (zombie.x, zombie.y, "cactus.png")
-     if (zombie.x < player.x)
-     zombie.x += zombie.speed;
-     else
-      zombie.x -= zombie.speed
-     if (zombie.y < player.y)
-      zombie.y += zombie.speed;
-     else
-      zombie.y -= zombie.speed
-        
-      var d = distance(player, zombie)
-        
-      //denna if sats gör så att spelet avslutas när distance är mindre än 10. 
-      //ljud spelas och stängs av.
-      // samt försvinner mina variabler till en blank screen.
-     if (d < 10)
-     {
-        zombies.splice(0, zombies.length);
-        i = 8;
         clearScreen();
-        text(30, 500, 200, "GAME OVER!", "red");
-        stopUpdate();
-        beat.pause();
-        sound.loop = false;
-        sound.play();
-        audio.loop = false; 
-        audio.play();
+        beat.play();
 
-     }
-     i += 1;
+        picture(player.x, player.y,"ballongspel1.png");
+          if (keyboard.d)
+            player.x +=10;
+          if (keyboard.a)
+            player.x -= 10;
+           if (keyboard.w)
+           player.y -= 10;
+            if (keyboard.s)
+               player.y += 10;
+
+        var i = 0;
+        while (i<8)
+        {
+            var zombie = zombies[i];
+ 
+         picture (zombie.x, zombie.y, "cactus.png")
+         if (zombie.x < player.x)
+         zombie.x += zombie.speed;
+         else
+          zombie.x -= zombie.speed
+         if (zombie.y < player.y)
+          zombie.y += zombie.speed;
+         else
+          zombie.y -= zombie.speed
+            
+          var d = distance(player, zombie)
+            
+          //denna if sats gör så att spelet avslutas när distance är mindre än 10. 
+          //ljud spelas och stängs av.
+          // samt försvinner mina variabler till en blank screen.
+         if (d < 10)
+         {
+            zombies.splice(0, zombies.length);
+            i = 8;
+            clearScreen();
+            text(30, 500, 200, "GAME OVER!", "red");
+            stopUpdate();
+            beat.pause();
+            sound.loop = false;
+            sound.play();
+            audio.loop = false; 
+            audio.play();
+
+         }
+         i += 1;
+        }
+ 
+ 
     }
-
-
-}
-</script>
+ </script>
 </body>
 </html>

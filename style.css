@@ -1,5 +1,5 @@
 body{
-    background: url("./background.avif");
+    background: url("img/background.avif");
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -9,14 +9,39 @@ body{
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    color: aliceblue;
+    font-size: 100px;
+    text-shadow: 1px 1px 1px #000, -1px -1px 1px #000;
   }
   
   #play-button {
-    padding: 10px 20px;
-    font-size: 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 10px;
+    padding: 10px 200px;
+    font-size: 90px;
+    background-color: #0c61e1;
+    color: rgb(56, 10, 129);
+    border: solid black;
+    border-radius: 25px;
     cursor: pointer;
+    font-family: 'Times New Roman', Times, serif;
+    text-shadow: 1px 1px 1px #000, -1px -1px 1px #000;
   }
+#play-button:hover {
+    background-color: #094399;
+}
+
+.health-bar {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    height: 40px;
+    width: 500px;
+  }
+  
+  .health {
+    height: 100%;
+    background-color: rgb(238, 11, 11);
+  }
+
+  .health-bar.game-over .health {
+    width: 0;
+    }
