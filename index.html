@@ -11,11 +11,14 @@
       </div> 
       <div id="game-over" class="hidden">
         <h1>Game Over!</h1>
+        <p>Tryck på Space för att starta om spelet.</p>
         <button id="restart-button">Restart Game</button>
     </div>
     <script src="http://koda.nu/simple.js">
       
         var zombies = [];
+
+        var gameOver = false;
  
         var i = 0;
  
@@ -31,70 +34,61 @@
     var player = {
         x:100, y:100
     }
-    
+
     let beat = new Audio('sound/backgroundaudio.mp3');
     let sound = new Audio('sound/ballonpop.mp3');
     let audio = new Audio('sound/lose.mp3');
 
-    function update()
-    {
-        clearScreen();
-        beat.play();
+    function update() {
+    clearScreen();
+    beat.play();
 
-        picture(player.x, player.y,"img/ballongspel1_30.png");
-          if (keyboard.d)
-            player.x +=10;
-          if (keyboard.a)
-            player.x -= 10;
-           if (keyboard.w)
-           player.y -= 10;
-            if (keyboard.s)
-               player.y += 10;
+    picture(player.x, player.y, "img/ballongspel1_30.png");
 
-        var i = 0;
-        while (i<8)
-        {
-            var zombie = zombies[i];
- 
-         picture (zombie.x, zombie.y, "img/cactus.png")
-         if (zombie.x < player.x)
-         zombie.x += zombie.speed;
-         else
-          zombie.x -= zombie.speed
-         if (zombie.y < player.y)
-          zombie.y += zombie.speed;
-         else
-          zombie.y -= zombie.speed
-            
-          var d = distance(player, zombie)
-            
-          //denna if sats gör så att spelet avslutas när distance är mindre än 10. 
-          //ljud spelas och stängs av.
-          // samt försvinner mina variabler till en blank screen.
-         if (d < 10)
-         {
-            zombies.splice(0, zombies.length);
-            i = 8;
-            clearScreen();
-            text(30, 500, 200, "GAME OVER!", "red");
-            stopUpdate();
-            beat.pause();
-            sound.loop = false;
-            sound.play();
-            audio.loop = false; 
-            audio.play();
-            document.querySelector('.health-bar').classList.add('game-over');
-            document.getElementById('restart-button').addEventListener('click', function() {
-         // Ladda om sidan för att starta om spelet
-        location.reload();
-        });
+    if (keyboard.d) player.x += 10;
+    if (keyboard.a) player.x -= 10;
+    if (keyboard.w) player.y -= 10;
+    if (keyboard.s) player.y += 10;
 
-         }
-         i += 1;
+    var i = 0;
+    while (i < 8) {
+        var zombie = zombies[i];
+
+        picture(zombie.x, zombie.y, "img/cactus.png");
+        if (zombie.x < player.x) zombie.x += zombie.speed;
+        else zombie.x -= zombie.speed;
+        if (zombie.y < player.y) zombie.y += zombie.speed;
+        else zombie.y -= zombie.speed;
+
+        var d = distance(player, zombie);
+
+        if (d < 10) {
+            if (!gameOver) {
+                gameOver = true;
+                zombies.splice(0, zombies.length);
+                i = 8;
+                clearScreen();
+                text(30, 500, 200, "GAME OVER!", "red");
+                stopUpdate();
+                beat.pause();
+                sound.loop = false;
+                sound.play();
+                audio.loop = false;
+                audio.play();
+                document.querySelector('.health-bar').classList.add('game-over');
+                document.getElementById('restart-button').addEventListener('click', function () {
+                    location.reload();
+                });
+                document.querySelector('#game-over p').classList.remove('hidden');
+            }
+            if (keyboard.space) {
+                location.reload();
+            }
         }
- 
- 
+        i += 1;
     }
+}
  </script>
+ 
 </body>
 </html>

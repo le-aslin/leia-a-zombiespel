@@ -87,3 +87,11 @@ body{
     #multiplay-button:hover {
         background-color: #094399;
     }
+
+    #restart-button {
+        font-size: 20px;
+        color: red;
+        align-items: flex-end;
+        justify-content: center;
+    }
+   
