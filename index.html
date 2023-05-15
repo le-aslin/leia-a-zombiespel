@@ -14,44 +14,80 @@
         <p>Tryck på Space för att starta om spelet.</p>
         <button id="restart-button">Restart Game</button>
     </div>
+    <canvas id="game-canvas"></canvas>
     <script src="http://koda.nu/simple.js">
       
         var zombies = [];
 
+        var bullets = [];
+
+        function distance(a, b) {
+        var dx = a.x - b.x;
+        var dy = a.y - b.y;
+        return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        var canvas = document.getElementById("game-canvas");
+        var keyboard = {};
+
+        document.addEventListener("keydown", function (event) {
+        keyboard[event.key] = true;
+        });
+
+        document.addEventListener("keyup", function (event) {
+        keyboard[event.key] = false;
+        });
+
         var gameOver = false;
- 
+
+        var totalWidth = 800;
+        
+        var totalHeight = 600;
+        
         var i = 0;
- 
+
         while (i<8)
         {
             zombies.push({x:random(totalWidth), y:random(totalHeight), speed: random(1,4)});
- 
+
             i += 1;
         }
- 
-    var zombie = {x:random(totalWidth), y:random(totalHeight), speed: random(1,4)};
+
+        var zombie = {x:random(totalWidth), y:random(totalHeight), speed: random(1,4)};
         
-    var player = {
+        var player = {
         x:100, y:100
-    }
+        }
 
-    let beat = new Audio('sound/backgroundaudio.mp3');
-    let sound = new Audio('sound/ballonpop.mp3');
-    let audio = new Audio('sound/lose.mp3');
+        let beat = new Audio('sound/backgroundaudio.mp3');
+        let sound = new Audio('sound/ballonpop.mp3');
+        let audio = new Audio('sound/lose.mp3');
 
-    function update() {
-    clearScreen();
-    beat.play();
+        canvas.addEventListener("click", function (event) {
+        for (var i = 0; i < zombies.length; i++) {
+        var zombie = zombies[i];
+        var d = distance({ x: event.clientX, y: event.clientY }, zombie);
+        if (d < 10) {
+            zombies.splice(i, 1);
+            sound.play();
+            bullets.push({ x: player.x, y: player.y, speed: 10 });
+        }
+        }
+        });
 
-    picture(player.x, player.y, "img/ballongspel1_30.png");
+        function update() {
+        clearScreen();
+        beat.play();
 
-    if (keyboard.d) player.x += 10;
-    if (keyboard.a) player.x -= 10;
-    if (keyboard.w) player.y -= 10;
-    if (keyboard.s) player.y += 10;
+        picture(player.x, player.y, "img/ballongspel1_30.png");
 
-    var i = 0;
-    while (i < 8) {
+        if (keyboard.d) player.x += 10;
+        if (keyboard.a) player.x -= 10;
+        if (keyboard.w) player.y -= 10;
+        if (keyboard.s) player.y += 10;
+
+        var i = 0;
+        while (i < 8) {
         var zombie = zombies[i];
 
         picture(zombie.x, zombie.y, "img/cactus.png");
@@ -89,6 +125,5 @@
     }
 }
  </script>
- 
 </body>
 </html>
