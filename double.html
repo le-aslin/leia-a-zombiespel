@@ -1,95 +1,101 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="./style.css">
-
-    </head>
-<body>
+  <head>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
     <div class="health-bar">
-        <div class="health">
-        </div>
-      </div> 
-      <div id="game-over" class="hidden">
-        <h1>Game Over!</h1>
-       <div id="restart-button" class="hidden"> 
+      <div class="health"></div>
+    </div>
+    <div id="game-over" class="hidden">
+      <h1>Game Over!</h1>
+      <div id="restart-button" class="hidden">
         <h2>Game by pressing spacebar</h2>
+      </div>
     </div>
     <script src="http://koda.nu/simple.js">
-      
-        var zombies = [];
- 
-        var i = 0;
+      var totalWidth = 1550;
+      var totalHeight = 800;
+      var totalTime = 0; // Variable to store the elapsed time in seconds
 
-        var gameOver = false; 
- 
-        while (i<1)
-        {
-            zombies.push({x:random(totalWidth), y:random(totalHeight), speed: random(1,4)});
- 
-            i += 1;
-        }
-        
-    var player = {
-        x:100, y:100
-    }
+      var zombies = [];
+      var i = 0;
+      var gameOver = false;
 
-    let beat = new Audio('sound/backgroundaudio.mp3');
-    let sound = new Audio('sound/ballonpop.mp3');
-    let audio = new Audio('sound/lose.mp3');
+      while (i < 1) {
+          zombies.push({x: random(totalWidth), y: random(totalHeight), speed: random(1, 4)});
+          i += 1;
+      }
 
-    function update() {
-    clearScreen();
-    beat.play();
+      var player = {
+          x: 100, y: 100
+      };
 
-    picture(player.x, player.y, "img/ballongspel1_30.png");
+      let beat = new Audio('sound/backgroundaudio.mp3');
+      let sound = new Audio('sound/ballonpop.mp3');
+      let audio = new Audio('sound/lose.mp3');
 
-    if (keyboard.d)
-        player.x += 10;
-    if (keyboard.a)
-        player.x -= 10;
-    if (keyboard.w)
-        player.y -= 10;
-    if (keyboard.s)
-        player.y += 10;
+      function update() {
+          clearScreen();
+          beat.play();
 
-    for (var i = 0; i < zombies.length; i++) {
-        var zombie = zombies[i];
+          picture(player.x, player.y, "img/ballongspel1_30.png");
 
-        picture(zombie.x, zombie.y, "img/cactus.png");
+          if (keyboard.d)
+              player.x += 10;
+          if (keyboard.a)
+              player.x -= 10;
+          if (keyboard.w)
+              player.y -= 10;
+          if (keyboard.s)
+              player.y += 10;
 
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'ArrowUp') {
-                zombie.y -= 0.1;
-            } else if (event.key === 'ArrowDown') {
-                zombie.y += 0.1;
-            } else if (event.key === 'ArrowLeft') {
-                zombie.x -= 0.1;
-            } else if (event.key === 'ArrowRight') {
-                zombie.x += 0.1;
+          for (var j = 0; j < zombies.length; j++) {
+              var zombie = zombies[j];
+
+              picture(zombie.x, zombie.y, "img/cactus.png");
+
+
+                  if (keyboard.up) {
+                      zombie.y -= 10;
+                  } 
+                  if (keyboard.down) {
+                      zombie.y += 10;
+                  } 
+                  if (keyboard.left) {
+                      zombie.x -= 10;
+                  } 
+                  if (keyboard.right) {
+                      zombie.x += 10;
+                  }
+
+
+              var d = distance(player, zombie);
+
+              if (d < 10) {
+                if(!gameOver){ 
+                gameOver = true;
+                  zombies.splice(j, 1);
+                  clearScreen();
+                  text(30, 500, 200, "GAME OVER!", "red");
+                  stopUpdate();
+                  beat.pause();
+                  sound.loop = false;
+                  sound.play();
+                  audio.loop = false;
+                  audio.play();
+                  document.querySelector('.health-bar').classList.add('game-over');
+                  document.getElementById('restart-button').addEventListener('click', function() {
+                      location.reload();
+                  });
+              }
             }
-        });
-
-        var d = distance(player, zombie);
-
-        if (d < 10) {
-            zombies.splice(0, zombies.length);
-            i = zombies.length;
-            clearScreen();
-            text(30, 500, 200, "GAME OVER!", "red");
-            stopUpdate();
-            beat.pause();
-            sound.loop = false;
-            sound.play();
-            audio.loop = false;
-            audio.play();
-            document.querySelector('.health-bar').classList.add('game-over');
-            document.getElementById('restart-button').addEventListener('click', function() {
-                location.reload();
-            });
-
-        }
-    }
-}
- </script>
-</body>
+          }
+                  
+         totalTime++; // Increment the elapsed time by 1 second
+          // Display the elapsed time on the screen
+          text(650, 850, 34, "Time: " + totalTime + "s", "black", );
+      }
+    </script>
+  </body>
 </html>
